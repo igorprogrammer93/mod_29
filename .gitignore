@@ -1,0 +1,9 @@
+bin/
+lib/
+postgres-data/
+pgadmin-data/
+*.class
+*.log
+*.iml
+.DS_Store
+.env
