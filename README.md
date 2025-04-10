@@ -80,13 +80,15 @@ No Query Tool do PgAdmin, execute:
 CREATE TABLE cliente (
   id SERIAL PRIMARY KEY,
   nome VARCHAR(100),
-  email VARCHAR(100)
+  email VARCHAR(100),
+  telefone VARCHAR(20)
 );
 
 CREATE TABLE produto (
   id SERIAL PRIMARY KEY,
   nome VARCHAR(100),
-  preco DECIMAL(10,2)
+  preco DECIMAL(10,2),
+  descricao TEXT
 );
 
 CREATE TABLE venda (
@@ -95,6 +97,7 @@ CREATE TABLE venda (
   produto_id INT REFERENCES produto(id),
   quantidade INT
 );
+
 ```
 
 ---
