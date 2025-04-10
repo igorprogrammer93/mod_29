@@ -1,16 +1,18 @@
 package dao;
-import Database.Database;
 
 import model.Cliente;
+import Database.Database;
+import java.sql.*;
 import java.util.*;
 
 public class ClienteDAO {
     public void salvar(Cliente cliente) throws Exception {
         var conn = Database.getConnection();
-        var sql = "INSERT INTO cliente (nome, email) VALUES (?, ?)";
+        var sql = "INSERT INTO cliente (nome, email, telefone) VALUES (?, ?, ?)";
         var stmt = conn.prepareStatement(sql);
         stmt.setString(1, cliente.getNome());
         stmt.setString(2, cliente.getEmail());
+        stmt.setString(3, cliente.getTelefone());
         stmt.executeUpdate();
         conn.close();
     }
@@ -25,6 +27,7 @@ public class ClienteDAO {
             c.setId(rs.getInt("id"));
             c.setNome(rs.getString("nome"));
             c.setEmail(rs.getString("email"));
+            c.setTelefone(rs.getString("telefone"));
             clientes.add(c);
         }
         conn.close();
@@ -42,6 +45,7 @@ public class ClienteDAO {
             c.setId(rs.getInt("id"));
             c.setNome(rs.getString("nome"));
             c.setEmail(rs.getString("email"));
+            c.setTelefone(rs.getString("telefone"));
         }
         conn.close();
         return c;
@@ -49,10 +53,11 @@ public class ClienteDAO {
 
     public void atualizar(Cliente cliente) throws Exception {
         var conn = Database.getConnection();
-        var stmt = conn.prepareStatement("UPDATE cliente SET nome = ?, email = ? WHERE id = ?");
+        var stmt = conn.prepareStatement("UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE id = ?");
         stmt.setString(1, cliente.getNome());
         stmt.setString(2, cliente.getEmail());
-        stmt.setInt(3, cliente.getId());
+        stmt.setString(3, cliente.getTelefone());
+        stmt.setInt(4, cliente.getId());
         stmt.executeUpdate();
         conn.close();
     }

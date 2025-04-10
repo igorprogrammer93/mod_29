@@ -1,15 +1,18 @@
 package dao;
-import Database.Database;
+
 import model.Produto;
+import Database.Database;
+import java.sql.*;
 import java.util.*;
 
 public class ProdutoDAO {
     public void salvar(Produto produto) throws Exception {
         var conn = Database.getConnection();
-        var sql = "INSERT INTO produto (nome, preco) VALUES (?, ?)";
+        var sql = "INSERT INTO produto (nome, preco, descricao) VALUES (?, ?, ?)";
         var stmt = conn.prepareStatement(sql);
         stmt.setString(1, produto.getNome());
         stmt.setDouble(2, produto.getPreco());
+        stmt.setString(3, produto.getDescricao());
         stmt.executeUpdate();
         conn.close();
     }
@@ -24,6 +27,7 @@ public class ProdutoDAO {
             p.setId(rs.getInt("id"));
             p.setNome(rs.getString("nome"));
             p.setPreco(rs.getDouble("preco"));
+            p.setDescricao(rs.getString("descricao"));
             produtos.add(p);
         }
         conn.close();
@@ -41,6 +45,7 @@ public class ProdutoDAO {
             p.setId(rs.getInt("id"));
             p.setNome(rs.getString("nome"));
             p.setPreco(rs.getDouble("preco"));
+            p.setDescricao(rs.getString("descricao"));
         }
         conn.close();
         return p;
@@ -48,10 +53,11 @@ public class ProdutoDAO {
 
     public void atualizar(Produto produto) throws Exception {
         var conn = Database.getConnection();
-        var stmt = conn.prepareStatement("UPDATE produto SET nome = ?, preco = ? WHERE id = ?");
+        var stmt = conn.prepareStatement("UPDATE produto SET nome = ?, preco = ?, descricao = ? WHERE id = ?");
         stmt.setString(1, produto.getNome());
         stmt.setDouble(2, produto.getPreco());
-        stmt.setInt(3, produto.getId());
+        stmt.setString(3, produto.getDescricao());
+        stmt.setInt(4, produto.getId());
         stmt.executeUpdate();
         conn.close();
     }
